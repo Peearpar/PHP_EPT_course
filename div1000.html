@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <style type="text/css">
+        .mini {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            float: left;
+            background-color: red;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        function start() {
+            var mainNode = document.getElementById('main');
+            for (var i = 0; i < 1000; i++) {
+                var node = document.createElement("div");
+                node.className = "mini";
+                var r, g, b;
+                r = Math.round(Math.random() * 254);
+                g = Math.round(Math.random() * 254);
+                b = Math.round(Math.random() * 254);
+
+                node.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+                mainNode.appendChild(node);
+            }
+        }
+    </script>
+    <script src="ept1.js"></script>
+</head>
+
+<body onload="start()">
+    <div id="main">
+    </div>
+</body>
+
+</html>

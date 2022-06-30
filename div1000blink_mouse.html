@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <style type="text/css">
+        .mini {
+            width: 10px;
+            height: 10px;
+            margin: 0;
+            float: left;
+            background-color: red;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        var black_divs = [];
+        var isMouseDown = false;
+        var NumberOfTile = 2000;
+        function start() 
+        {
+            var mainNode = document.getElementById('main');
+            for (var i = 0; i < NumberOfTile; i++) 
+            {
+                var node = document.createElement("div");
+                node.setAttribute("id", "x" + i);
+                node.className = "mini";
+                var r, g, b;
+                r = Math.round(Math.random() * 254);
+                g = Math.round(Math.random() * 254);
+                b = Math.round(Math.random() * 254);
+
+                node.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+
+                node.addEventListener("mouseover", onMouseoverDIV);
+                //node.addEventListener("click", mySecondFunction);
+                node.addEventListener("mouseout",onMouseoutDIV);
+                node.addEventListener("ondrag",onMouseDragDIV);
+                node.addEventListener("mousedown",onMouseDownDIV);
+                node.addEventListener("mouseup",onMouseUpDIV);
+
+                mainNode.appendChild(node);
+            }
+
+            window.setInterval(onTimerTick, 200);
+        }
+
+        function onTimerTick()
+        {
+            for (var i = 0; i < NumberOfTile; i++)
+            {
+                if(black_divs.indexOf("x" + i) == -1)
+                {
+                    var node = document.getElementById("x" + i);
+                    var r, g, b;
+                    r = Math.round(Math.random() * 254);
+                    g = Math.round(Math.random() * 254);
+                    b = Math.round(Math.random() * 254);
+
+                    node.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+                }
+            }
+        }
+
+        function onMouseoverDIV()
+        {
+            if(isMouseDown && black_divs.indexOf("x" + this.id) == -1)
+            {
+                var r, g, b;
+                r = 0;
+                g = 0;
+                b = 0;
+
+                this.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+                black_divs [black_divs.length] = this.id;
+                console.log(black_divs);
+            }
+        }
+
+        function onMouseoutDIV()
+        {
+
+        }
+
+        function onMouseDragDIV()
+        {
+            
+        }
+
+        function onMouseDownDIV()
+        {
+            isMouseDown = true;
+        }
+
+        function onMouseUpDIV()
+        {
+            isMouseDown = false;
+        }
+
+    </script>
+    <script src="ept1.js"></script>
+</head>
+
+<body onload="start()">
+    <div id="main">
+    </div>
+</body>
+
+</html>
