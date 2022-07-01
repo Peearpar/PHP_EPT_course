@@ -1,0 +1,741 @@
+<html>
+<head>
+<style type="text/css">
+			#main
+			{
+				width: 290px;
+				height: 290px;
+				margin: 0;
+				position: absolute;
+				background-color: brown;
+				border-radius: 5px;
+			}
+			.mini
+			{
+				width: 60px;
+				height: 60px;
+				margin: 0;
+				position: absolute;
+				background-color: red;
+				border-radius: 5px;
+			}
+			.tile
+			{
+				width: 60px;
+				height: 60px;
+				margin: 0;
+				padding: 0;
+				position: absolute;
+				background-color: red;
+				border-radius: 5px;
+				font-size: 20pt;
+				font-weight: 500;
+				color: white;
+				text-align: center;
+				vertical-align: -20px;
+				z-index: 100;
+			}
+			body
+			{
+				margin: 0px;
+				padding: 0px;
+			}
+		</style>
+<script type="text/javascript">
+			var nodeTest ; 
+			var board = 
+			[
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+				[0,0,0,0],
+			];
+			function start()
+			{
+				var mainNode = document.getElementById('main');
+
+				for(var i = 0 ; i < 4; i++)
+				{
+					for(var j = 0 ; j < 4; j++)
+					{
+						var node = document.createElement("div");  
+
+
+						node.setAttribute("id", "x" + i +","+j);
+
+						node.className = "mini";
+						var r,g,b;
+						r = Math.round(150);
+						g = Math.round(150);
+						b = Math.round(150);
+
+						node.style.backgroundColor = "rgb("+r+","+g+","+b+")";
+
+						node.style.left = (j * (60+10) + 10 );
+						node.style.top =  (i * (60+10) + 10 );
+						
+						mainNode.appendChild(node); 
+
+					}
+				}
+				var bodyNode = document.getElementById('body');
+
+				///////////////test////////////				
+				
+
+				addTile(1,3,2);
+				addTile(2,3,2);
+				//////////////end test////////////////
+				 document.onkeydown= function(event) 
+				 {
+			        var key= (event || window.event).keyCode;
+			        console.log(key);
+			        //var rect_ball = nodeTest.div.getBoundingClientRect();
+			        //nodeTest.goBig( rect_ball.left,rect_ball.top);
+			        if(isIdelState_ready_to_input== false) return;
+			        if(key == "65")
+			        {
+			        	//nodeTest.goBig( rect_ball.left,rect_ball.top);
+			        }
+			         if(key == "66")
+			        {
+			        	isIdelState_ready_to_input= false;
+			        	mearge(board[1][0],board[0][0],"up");
+			        }
+			        if(key == "38")
+			        {
+			        	isIdelState_ready_to_input= false;
+			        	commardCount = 0 ;
+			        	commandUp();
+			        	//nodeTest.goDirection ("up",rect_ball.left,rect_ball.top,function(){})
+			        }
+			         if(key == "40")
+			        {
+			        	//nodeTest.goDirection ("down",rect_ball.left,rect_ball.top,function(){})
+			        }
+			         if(key == "37")
+			        {
+			        	isIdelState_ready_to_input= false;
+			        	commardCount = 0 ;
+			        	commandLeft();
+			        	//nodeTest.goDirection ("left",rect_ball.left,rect_ball.top,function(){})
+			        }
+			         if(key == "39")
+			        {
+			        	isIdelState_ready_to_input= false;
+			        	commardCount = 0 ;
+			        	commandRight();
+			        	//nodeTest.goDirection ("right",rect_ball.left,rect_ball.top,function(){})
+			        }
+
+			        return false;
+			    };
+			}
+
+			function checkIdisUsed(id)
+			{
+				for(var i = 0 ; i < 4; i++)
+				{
+					for(var j = 0 ; j < 4; j++)
+					{
+						var xx = board[i][j];
+						if(xx !==  0 )
+						{
+							if(xx.tileId === id)
+							{
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+
+			function addTile(x,y,number)
+			{
+				var mainNode = document.getElementById('main');
+				var node = document.createElement("div");  
+
+				var tileId = Math.round( Math.random() * 1000000);
+				while(checkIdisUsed(tileId))
+				{
+					tileId = Math.round( Math.random() * 1000000);
+				}
+
+				node.setAttribute("id", "t" +tileId);
+
+				node.className = "tile";
+				node.innerHTML = "" +number;
+				var r,g,b;
+				r = Math.round(Math.random()*50 + 200);
+				g = Math.round(Math.random()*100+100);
+				b = Math.round(Math.random()*100+100);
+
+				node.style.backgroundColor = "rgb("+r+","+g+","+b+")";
+
+				var pos_x = (x * (60+10) + 10 );
+				var pos_y = (y * (60+10) + 10 );
+				node.style.left = pos_x;
+				node.style.top =  pos_y;
+				
+				mainNode.appendChild(node); 
+
+				var aNumberTile = {
+					id : tileId,
+					div:node,
+					i:y,
+					j:x, 
+					number:number, 
+					pos_x : pos_x ,
+					pos_y :pos_y,
+					goBig_i : 0,
+					};
+
+				aNumberTile.goBig = goBig;
+				aNumberTile.goDirection = goDirection;
+				aNumberTile.setNumber = function(NewNumber)
+				{
+					this.number = NewNumber;
+					this.div.innerHTML = this.number;
+				};
+
+
+				board [y][x] = aNumberTile ;
+				return aNumberTile;
+			}
+
+			function goBig(x_old,y_old)
+			{
+				this.goBig_i += 0.09;
+				//console.log("xxx" + div.goBig_i);
+				//console.log(x_old+","+y_old);
+				var n = Math.sin(this.goBig_i) * 20;
+
+				var rect_ball = this.div.getBoundingClientRect();
+				this.div.style.left = x_old -n;
+				this.div.style.top = y_old -n;
+				this.div.style.width = 60 + n*2;
+				this.div.style.height = 60 + n*2;
+				console.log(this.div.style.left+" , "+this.div.style.top +"   " +  n);
+
+				if(this.goBig_i > Math.PI)
+				{
+					this.div.style.left = x_old;
+					this.div.style.top = y_old;
+
+					this.div.style.width = 60 ;
+					this.div.style.height = 60;
+					this.goBig_i = 0 ;
+				}
+				else
+				{
+					var _this = this;
+					window.setTimeout(
+						function () {_this.goBig(x_old,y_old);}
+						, 1);
+				}
+				
+			}
+
+			function goDirection(direction,x_old,y_old,FinishCallback)
+			{
+
+				this.goBig_i += 0.09;
+				var n = Math.sin(this.goBig_i) * (60+10);
+
+				var rect_ball = this.div.getBoundingClientRect();
+				
+				
+				if(direction == "left")
+				{
+					this.div.style.left = x_old -n;
+				}
+				else if(direction == "right")
+				{
+					this.div.style.left = x_old +n;
+				}
+				else if(direction == "up")
+				{
+					this.div.style.top = y_old -n;
+				}
+				else if(direction == "down")
+				{
+					this.div.style.top = y_old +n;
+				}
+
+
+
+				if(this.goBig_i > Math.PI/2)
+				{
+					if(direction == "left")
+					{
+						this.div.style.left = x_old -(60+10);
+
+					}
+					else if(direction == "right")
+					{
+						this.div.style.left = x_old +(60+10);
+					}
+					else if(direction == "up")
+					{
+						this.div.style.top = y_old -(60+10);
+					}
+					else if(direction == "down")
+					{
+						this.div.style.top = y_old +(60+10);
+					}
+					this.div.style.width = 60 ;
+					this.div.style.height = 60;
+					this.goBig_i = 0 ;
+
+					FinishCallback(this);
+				}
+				else
+				{
+					var _this = this;
+					window.setTimeout(
+						function () {_this.goDirection(direction,x_old,y_old,FinishCallback);}
+						, 1);
+				}
+			}
+
+			function mearge(tile_start,tile_end,direction,FinishCallback)
+			{
+				if(tile_start .number  === tile_end.number)
+				{
+					var rect_ball = tile_start.div.getBoundingClientRect();
+					tile_start.goDirection(direction,rect_ball.left,rect_ball.top,
+						function(tile)
+						{
+							var rect_ball = tile_end.div.getBoundingClientRect();
+							tile_end.goBig(rect_ball.left,rect_ball.top);
+							board[tile_start.i][tile_start.j] = 0;
+							
+							tile_end.setNumber(tile_end.number*2);
+							var mainNode = document.getElementById('main');
+
+							mainNode.removeChild(tile_start.div);
+
+							FinishCallback();
+						});
+
+
+
+				}
+			}
+
+			var canMove = [];
+			var commardCount= 0;
+			var max_canmove = 0; //###########
+			var count_finish = 0; //##########
+
+			var count_mearge_finish = 0 ; 
+			var max_can_mearge = 0;
+
+			var isIdelState_ready_to_input = true;
+
+			function meargeFinish(direction)
+			{
+				if(count_mearge_finish >= max_can_mearge)
+				{
+					if(commardCount < 4)
+					{
+						if(direction === "left")commandLeft();
+						else if(direction === "right")commandRight();
+						else if(direction === "up")commandUp();
+					}
+					else
+					{
+						randomTile();
+						isIdelState_ready_to_input = true;
+						cleanUp();
+						return;
+					}
+				}
+				else
+				{
+					setTimeout(
+						function()
+						{
+							meargeFinish(direction);
+						}
+						,20);
+				}
+			}
+
+
+			function commandLeft()
+			{
+				commardCount ++;
+				for(var i =0;i < 4;i++)
+				{
+					for(var j =0;j < 4;j++)
+					{
+						if(board[i][j] === 0 )
+						{
+							for(var k =j+1;k < 4;k++)
+							{
+								if(board[i][k] === 0 )
+								{
+								}
+								else
+								{
+									if(canMove.indexOf(board[i][k]) === -1)
+									{
+										console.log(i+" , " + j +" , " + k )
+										canMove .push(board[i][k]);
+									}
+								}
+							}
+						}
+						else
+						{
+
+						}
+					}		
+				}
+				console.log("canMove");
+				console.log(canMove);
+				max_canmove = canMove.length;//#########
+				count_finish= 0; //########
+				for(var i = 0 ;i < canMove.length ; i++)
+				{
+					console.log(canMove[i].j);
+					if(canMove[i].j > 0 )
+					{
+						var rect_ball = canMove[i].div.getBoundingClientRect();
+
+						canMove[i].goDirection("left",rect_ball.left,rect_ball.top,
+							function(item)
+							{
+								
+								board[item.i][item.j] = 0;
+								item.j = item.j -1;
+								board[item.i][item.j] = item;//#########
+								console.log(item);
+								count_finish++;//#########
+							});
+					}
+				}
+				canMove = [];
+				
+				setTimeout(moveLeftFinish,10);
+			}
+			function moveLeftFinish()
+			{
+				if(count_finish >= max_canmove)
+				{
+					count_mearge_finish = 0 ; 
+					max_can_mearge = 0;
+
+					for(var i = 0; i< 4;i++)
+					{
+						for(var j = 0; j< 4;j++)
+						{
+							if(	i >= 0 && i < 4 && j >0  && j < 3 && 
+								board[i][j] !== 0 && board[i][j-1] !== 0 )
+							{
+								if(board[i][j].number === board[i][j-1].number)
+								{
+									max_can_mearge++;
+									mearge(board[i][j],board[i][j-1],"left",
+											function ()
+											{
+												count_mearge_finish	++;
+											}
+
+										);
+									j++;
+								}
+							}
+							
+						}	
+					}
+
+					meargeFinish("left");
+					
+				}
+				else
+				{
+					setTimeout(moveLeftFinish,10);
+				}
+				
+			}
+
+
+			/////////right///////////
+			function commandRight()
+			{
+				commardCount++;
+				for(var i =0;i < 4;i++)
+				{
+					for(var j =3;j >=0 ;j--)
+					{
+						if(board[i][j] === 0 )
+						{
+							for(var k =j-1;k >=0 ;k--)
+							{
+								if(board[i][k] === 0 )
+								{
+								}
+								else
+								{
+									if(canMove.indexOf(board[i][k]) === -1)
+									{
+										console.log(i+" , " + j +" , " + k )
+										canMove .push(board[i][k]);
+									}
+								}
+							}
+						}
+						else
+						{
+
+						}
+					}		
+				}
+				console.log("canMove");
+				console.log(canMove);
+				max_canmove = canMove.length;//#########
+				count_finish= 0; //########
+				for(var i = 0 ;i < canMove.length ; i++)
+				{
+					console.log(canMove[i].j);
+					if(canMove[i].j < 3 )
+					{
+						var rect_ball = canMove[i].div.getBoundingClientRect();
+
+						canMove[i].goDirection("right",rect_ball.left,rect_ball.top,
+							function(item)
+							{
+								
+								board[item.i][item.j] = 0;
+								item.j = item.j +1;
+								board[item.i][item.j] = item;//#########
+								console.log(item);
+								count_finish++;//#########
+							});
+					}
+				}
+				canMove = [];
+				
+				setTimeout(moveRightFinish,10);
+			}
+			function moveRightFinish()
+			{
+				console.log("rr");
+				console.log(" "+count_finish +" "+ max_canmove);
+				count_mearge_finish = 0 ; 
+				max_can_mearge = 0;
+				if(count_finish >= max_canmove)
+				{
+					for(var i = 0; i< 4;i++)
+					{
+						for(var j = 3; j>= 0;j--)
+						{
+							if(i >= 0 && i < 4 && j >=0  && j < 3 && 
+								board[i][j] !== 0 && board[i][j+1] !== 0 )
+							{
+								if(board[i][j].number === board[i][j+1].number)
+								{
+									max_can_mearge++;
+									mearge(board[i][j],board[i][j+1],"right",function ()
+											{
+												count_mearge_finish	++;
+											});
+									j--;
+								}
+							}
+							
+						}	
+					}
+
+					meargeFinish("right");
+				}
+				else
+				{
+					setTimeout(moveRightFinish,10);
+				}
+				
+			}
+			/////////////end right////////////
+			/////////up///////////
+			function commandUp()
+			{
+				commardCount++;
+				canMove = [];
+				for(var j =0;j < 4;j++)
+				{
+					for(var i =0;i < 4 ;i++)
+					{
+						if(board[i][j] === 0 )
+						{
+							for(var k =i+1;k < 4;k++)
+							{
+								if(board[k][j] === 0 )
+								{
+								}
+								else
+								{
+									if(canMove.indexOf(board[k][j]) === -1)
+									{
+										canMove .push(board[k][j]);
+									}
+								}
+							}
+						}
+						else
+						{
+
+						}
+					}		
+				}
+				console.log("canMove");
+				console.log(canMove);
+				max_canmove = canMove.length;//#########
+				count_finish= 0; //########
+				for(var i = 0 ;i < canMove.length ; i++)
+				{
+					console.log(canMove[i].j);
+					if(canMove[i].i > 0  )
+					{
+						var rect_ball = canMove[i].div.getBoundingClientRect();
+
+						canMove[i].goDirection("up",rect_ball.left,rect_ball.top,
+							function(item)
+							{
+								
+								board[item.i][item.j] = 0;
+								item.i = item.i -1;
+								board[item.i][item.j] = item;//#########
+								console.log(item);
+								count_finish++;//#########
+							});
+					}
+				}
+				canMove = [];
+				
+				setTimeout(moveUpFinish,10);
+			}
+			function moveUpFinish()
+			{
+				console.log("rr");
+				console.log(" "+count_finish +" "+ max_canmove);
+				count_mearge_finish = 0 ; 
+				max_can_mearge = 0;
+				if(count_finish >= max_canmove)
+				{
+					
+					for(var j = 0; j< 4;j++)
+					{
+						for(var i = 0; i< 4;i++)
+						{
+							if(i > 0 && i < 4 && j >=0  && j < 4 && 
+								board[i][j] !== 0 && board[i-1][j] !== 0 )
+							{
+								if(board[i][j].number === board[i-1][j].number)
+								{
+									max_can_mearge++;
+									mearge(board[i][j],board[i-1][j],"up",function ()
+											{
+												count_mearge_finish	++;
+											});
+									i++;
+								}
+							}
+							
+						}	
+					}
+					meargeFinish("up");
+				}
+				else
+				{
+					setTimeout(moveUpFinish,10);
+				}
+				
+			}
+			/////////////end up////////////
+			function randomTile()
+			{
+				//###################
+				var count =0;
+				for(var y=0;y< 4;y++)
+				{
+					for(var x=0;x< 4;x++)
+					{
+						if(board[y][x] === 0)
+						{
+
+						}
+						else
+						{
+							count ++;
+						}
+					}
+				}
+				if(count === 0 )
+					return;
+				//################
+				var n = Math.random() * 100;
+				var i=0;
+				var j=0;
+				for(var k = 0 ; k < n ; k ++)
+				{
+					j = j + 1;
+					if(j > 3)
+					{
+						j = 0 ;
+						i++;
+						if(i > 3)
+						{
+							i =0;
+						}
+					}
+					if(board[i][j] === 0)
+					{
+
+					}
+					else
+					{
+						k--;
+						continue;
+					}
+				}
+				var m = Math.random() > 0.7 ? 4 : 2 ;
+				addTile(j,i,m)
+			}
+			
+
+			function cleanUp()
+			{
+				for(var i = 0 ; i < 4 ; i ++)
+				{
+					for(var j = 0 ; j < 4 ; j ++)
+					{
+						if(board[i][j] === 0)
+						{
+							
+						}
+						else
+						{
+							var x = 0;
+							var y = 0;
+							x = board[i][j].j;
+							y = board[i][j].i;
+							x = x* (60 + 10) + 10 ;
+							y = y* (60 + 10) + 10 ;
+							board[i][j].div.style.left = x;
+							board[i][j].div.style.top = y;
+							console.log("x = " +  x  +" ,  y = "+  y);
+						}
+					}	
+				}
+			}
+		</script>
+<script src="ept1.js"></script>
+</head>
+<body onload="start()" id="body">
+<div id="main">
+</div>
+</body>
+</html>
