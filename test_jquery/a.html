@@ -1,10 +1,45 @@
 <html>
     <head>
-        <script type="text/javascript" scr="jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+            function xxx()
+            {
+                var a = document.getElementById("a");
+                a.innerHTML = "Hello World";
+            }
+        </script>
+         <script type="text/javascript">
+
+            $(document).ready(function()
+            {
+                $("#btnOK").click(function()
+                {
+                    $(".c").html("hello");
+                }
+                );
+
+                $(".c").mouseenter(function()
+                {
+                    $(this).fadeOut("slow")
+                });
+                $(".c").width(500);
+                $(".c").height(500);
+            }
+            );
+         </script>
     </head>
     <body>
         <div id="a">
         </div>
         <button onclick="xxx()">OK</button>
+
+        <div id="b">
+            bb
+        </div>
+
+        <div class="c">
+            cc
+        </div>
+        <button id="btnOK">OK</button>
     </body>
 </html>
