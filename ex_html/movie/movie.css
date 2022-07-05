@@ -1,0 +1,56 @@
+.sticky_menu {
+    background-color: #000000;
+    color: #aaaaaa;
+    width: 100%;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10%;
+    margin-top: 0px;
+    font-size: 20pt;
+    position: fixed;
+}
+
+.movie
+{
+    width: 400px;
+    background-color: #000000;
+    height: 200px;
+}
+
+.content
+{
+    margin-top: 0px;
+    padding-top: 90px;
+}
+
+img
+{
+    width: 250px;
+    height: 400px;
+}
+
+.sticky_menu a:link {
+    color: #aaa;
+    text-decoration: none;
+  }
+  
+ .sticky_menu a:visited {
+    color: #aaa;
+    text-decoration: none;
+  }
+  
+.sticky_menu a:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+.sticky_menu a:active {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
