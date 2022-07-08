@@ -1,0 +1,172 @@
+<?php
+// $show = $_GET['show'];
+// $hidden = $_GET['hidden'];
+// $state = $_GET['state'];
+// $state2 = $_GET['state2'];
+
+$show = isset($_GET['show']) ? $_GET['show'] : 0;
+$hidden = isset($_GET['hidden']) ? $_GET['hidden'] : 0;
+$state = isset($_GET['state']) ? $_GET['state'] : "";
+$state2 = isset($_GET['state2']) ? $_GET['state2'] : "";
+
+function numberPress($number)
+{
+    global $show, $hidden, $state, $state2;
+    if ($show == 0 || ($state != "" && $state2 != "1"))
+    {
+        $show = $number;
+        if($state != "")
+        {
+            $state2 = "1";
+        }
+    }
+    else
+    {
+        $show = $show .$number;
+    }
+}
+
+if (isset($_GET['0']))
+{
+    numberPress("0");
+}
+else if (isset($_GET['1']))
+{
+    numberPress("1");
+} else if (isset($_GET['2'])) {
+    numberPress("2");
+} else if (isset($_GET['3'])) {
+    numberPress("3");
+} else if (isset($_GET['4'])) {
+    numberPress("4");
+} else if (isset($_GET['5'])) {
+    numberPress("5");
+} else if (isset($_GET['6'])) {
+    numberPress("6");
+} else if (isset($_GET['7'])) {
+    numberPress("7");
+} else if (isset($_GET['8'])) {
+    numberPress("8");
+} else if (isset($_GET['9'])) {
+    numberPress("9");
+} else if (isset($_GET['+'])) {
+    $state = "+";
+    $state2 = "";
+    $hidden = $show;
+} else if (isset($_GET['-'])) {
+    $state = "-";
+    $state2 = "";
+    $hidden = $show;
+} else if (isset($_GET['*'])) {
+    $state = "*";
+    $state2 = "";
+    $hidden = $show;
+} else if (isset($_GET['/'])) {
+    $state = "/";
+    $state2 = "";
+    $hidden = $show;
+}
+ else if (isset($_GET['=']))
+ {
+    if($state == "+")
+    {
+        $show = $hidden + $show;
+    }
+    else if($state == "-")
+    {
+        $show = $hidden - $show;
+    }
+    else if($state == "*")
+    {
+        $show = $hidden * $show;
+    }
+    else if($state == "/")
+    {
+        $show = $hidden / $show;
+    }
+    $state = "/";
+    $state2 = "";
+    $hidden = "";
+ }
+else
+{
+    $show = 0;
+    $state = "/";
+    $state2 = "";
+    $hidden = "";
+}
+
+?>
+
+
+<html>
+
+<head>
+    <meta charset="utf8">
+    <title>เครื่องคิดเลข</title>
+    <style type="text/css">
+        * {
+            font-size: 30pt;
+        }
+        input
+        {
+            font-size: 30pt;
+        }
+    </style>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+         var show = 0;
+         var hidden = "";
+         var state = "";
+         var state2 = "";
+
+         function numberPress(number)
+        {
+            if (show == 0 || (state != "" && state2 != "1"))
+            {
+                show = number;
+                if(state != "")
+                {
+                    state2 = "1";
+                }
+            }
+            else
+            {
+                show = ""+ show +""+ number;
+            }
+        }
+
+        $(document).ready(function(){
+
+        });
+
+    </script>
+</head>
+
+<body>
+    <input type="text" name="textbox1" id="textbox1" />
+    <br/>
+    <br/>
+    <button id="7">7</button>
+    <button id="8">8</button>
+    <button id="9">9</button>
+    <button id="+">+</button>
+    <br/><br/>
+    <button id="4">4</button>
+    <button id="5">5</button>
+    <button id="6">6</button>
+    <button id="-">-</button>
+    <br/><br/>
+    <button id="1">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+    <button id="*">*</button>
+    <br/><br/>
+    <button id="0">0</button>
+    <button id="=" style="width: 75px;">=</button>
+    <button id="+">+</button>
+    <br/>
+</body>
+
+
+</html>
