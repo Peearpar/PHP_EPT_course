@@ -1,16 +1,136 @@
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="movie.css">
-    </head>
-    <body>
-        <div class="sticky_menu">
-            <a href="#">EPT ชวนคุณไปดูหนังกันเถอะ</a>
-        </div>
-        <div class="content">
-           <div class="movie">
-            <img src="../movie/TopGun.jpeg" alt="">
-           </div>
-        </div>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="movie.css">
+    <link rel="stylesheet" href="colorbox.css" />
+
+    <!-- link video -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+    <script src="jquery.colorbox.js"></script>
+
+    <!-- Bootstrap core css -->
+    <!-- <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet"/> -->
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var movie_datas =
+            [
+                {
+                    movieName: "TopGun",
+                    poster: "../movie/TopGun.jpeg",
+                    description: `After more than thirty years of service as one of the Navy's top aviators,
+                    Pete Mitchell is where he belongs,pushing the envelope as a courageous test pilot and dodging
+                    the advancement in rank that would ground him.`,
+                    youtubeId:"giXco2jaZ_4"
+                },
+                {
+                    movieName: "Star Wars",
+                    poster: "../movie/Star-wars.jpeg",
+                    description: `Star Wars: The Rise of Skywalker (also known as Star Wars: Episode IX.The Rise of Skywalker) is a 2019
+                    American epic space opera film produced,
+                    co-written, and directed by J. J. Abrams.`,
+                    youtubeId:"8Qn_spdM5Zg"
+                },
+                {
+                    movieName: "Stranger Things",
+                    poster: "../movie/Stranger-things.jpeg",
+                    description: `The fourth season of the American science fiction horror drama television series Stranger
+                    Things was released on the streaming service Netflix.The first set of seven episodes was released on May
+                    27, 2022.`,
+                    youtubeId:"u38ZPcyrqHk"
+                },
+                {
+                    movieName: "Peaky Blinders",
+                    poster: "../movie/Peaky-blinders.jpeg",
+                    description: `The Peaky Blinders were a street gang based in Birmingham, England, which operated from the 1880s until the 1910s.
+                    The group, which grew out of the harsh economic deprivations of working-class Britain.`,
+                    youtubeId:"AkMiC72xBSA"
+                }
+            ];
+
+            let template = `
+                <div class='movie col-md-4 col-centered'
+                youtubelink='{{[[--YOUTUBE--]]}}'>
+                    <div class='inner_image'>
+                        <img src='{{[[--POSTER--]]}}' />
+                    </div>
+                    <div class='headline'>
+                        {{[[--NAME--]]}}
+                    </div>
+                    <div class='description'>
+                        {{[[--DESCRIPTION--]]}}
+                    </div>
+
+                </div>
+                `;
+
+            for(var i = 0; i < movie_datas.length; i++)
+            {
+                let that_movie = template;
+                that_movie = that_movie.replace("{{[[--NAME--]]}}",movie_datas[i].movieName);
+                that_movie = that_movie.replace("{{[[--DESCRIPTION--]]}}",movie_datas[i].description);
+                that_movie = that_movie.replace("{{[[--POSTER--]]}}",movie_datas[i].poster);
+                that_movie = that_movie.replace("{{[[--YOUTUBE--]]}}",movie_datas[i].youtubeId);
+
+                console.log(that_movie);
+                $("#main_content").append(that_movie);
+            }
+
+            for(var i = 0; i < movie_datas.length; i++)
+            {
+                let that_movie = template;
+                that_movie = that_movie.replace("{{[[--NAME--]]}}",movie_datas[i].movieName);
+                that_movie = that_movie.replace("{{[[--DESCRIPTION--]]}}",movie_datas[i].description);
+                that_movie = that_movie.replace("{{[[--POSTER--]]}}",movie_datas[i].poster);
+                that_movie = that_movie.replace("{{[[--YOUTUBE--]]}}",movie_datas[i].youtubeId);
+
+                console.log(that_movie);
+                $("#main_content").append(that_movie);
+            }
+
+            $('.movie').css('cursor', 'pointer');
+
+            $(".movie").mouseover(function () {
+                $(this).css("background-color", "#ddd");
+            });
+            $(".movie").mouseout(function () {
+                $(this).css("background-color", "#fff");
+            });
+            $(".movie").click(function () {
+                // alert("a");
+                var link = $(this).attr('youtubelink');
+                // alert(link);
+
+                var full_link = "https://www.youtube.com/embed/" + link;
+                $(".youtube").attr('href', full_link);
+                $(".youtube").trigger("click");
+            });
+
+            $(".youtube").colorbox({
+                iframe: true,
+                innerWidth: 640,
+                innerHeight: 390
+            });
+
+            $('.movie').hide().first().show("2000",function showNext(){
+                $(this).next("div").show("2000",showNext);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="sticky_menu">
+        <a href="#">EPT ชวนคุณไปดูหนังกันเถอะ</a>
+    </div>
+    <a class='youtube'>
+        Flash / Video (Iframe/Direct Link To YouTube)
+    </a>
+    <div id ="main_content" class="content container row-centered">
+    </div>
+</body>
+
 </html>
