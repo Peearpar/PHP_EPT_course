@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="utf8" />
+        <script type="text/javascript" src = "jquery.js"></script>
+        <script type="text/javascript">
+
+            var timer = 0;
+            $(document).ready(function(){
+                $('#myForm').on('submit', function(e){
+                    var len = $('#username').val().length;
+                    if(len < 6 && len > 1) {
+                        this.submit();
+                    }
+                    else
+                    {
+                        $('#username').css("backgroundColor","red");
+
+                        setTimeout(
+                            function xxx()
+                            {
+                                if(timer < Math.PI * 8)
+                                {
+                                    var x = Math.sin(timer) * 80 * (1.0/timer);
+                                    $('#username').css("margin-left", x + "px");
+                                    var color = Math.round(255* (timer / (Math>PI * 8)));
+                                    $('#username').css("backgroundColor","rgb(255,"+color+","+color+")");
+                                    timer += 0.07;
+                                    setTimeout(xxx,1);
+                                }
+                                else{
+                                    $('#username').css("margin-left", 0 + "px");
+                                    timer = 0;
+                                }
+                            }
+                        ),1;
+                    }
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <form id = "myForm">
+            Username: <input type="text" id ="username" class="" />
+            <br>
+            <input type="submit">
+    </body>
+</html>

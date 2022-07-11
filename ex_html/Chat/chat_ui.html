@@ -8,10 +8,11 @@
                 $("#send").click(function(){
 
                     var x = $("#txt").val();
+                    var username = $("#username").val();
 
                     $.post("chat_send_text.php",
                     {
-                        username: "James Grossling",
+                        username: username,
                         txt: x
                     },
                     function(data, status){
@@ -22,10 +23,26 @@
                 window.setInterval(function(){
                     $.get("chat_get.php", function(data, status){
                         // alert("Data: " +data+ "\nStatus: " + status);
+
+                        var data_json = JSON.parse(data);
+                        $("#content").empty();
+
+                        var content = "<table>";
+
+                        for(var i = 0; i < data_json.length; i++)
+                        {
+                            content += 'tr';
+                            content += '<td>' + data_json[i][0] + '</td>'
+                            content += '<td>' + data_json[i][0] + '</td>'
+                            content += '<tr>';
+                        }
+                        content += "</table>"
+
+
                         $("#content").html(data);
                     });
 
-                }, 500);
+                }, 1000);
             });
 
         </script>
@@ -35,7 +52,7 @@
         </div>
         <div>
             username:
-            <input type="text" id = "username" value="John ชาวนา:"/>
+            <input type="text" id = "username" value="John ชาวนา"/>
         </div>
         <div>
             <input type="text" id = "txt" />
