@@ -38,11 +38,29 @@
         exit;
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
     {
         header("location:insert_form.php?return=5");
         exit;
       }
 
-    insertNewCustomer($name,$surname,$phone,$email);
+      $isSuccess = insertNewCustomer($name,$surname,$phone,$email);
+
+      setcookie("name","", time() - 3600,"/");
+    setcookie("surname","", time() - 3600,"/");
+    setcookie("phone","", time() - 3600,"/");
+    setcookie("email","", time() - 3600,"/");
 ?>
+
+<html>
+    <head>
+        <meta charset="utf8"/>
+    </head>
+    <body>
+        <h1><?php echo $isSuccess ? "insert success" : "Fail"; ?></h1>
+        <br/>
+        <a href="index.php">Back to home</a>
+        <br/>
+        <a href="insert_form.php">Back to insert new Customer</a>
+    </body>
+</html>

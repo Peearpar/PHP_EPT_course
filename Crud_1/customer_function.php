@@ -15,14 +15,33 @@ function createMysqlConnection()
     }
     return $conn;
 }
+
 function insertNewCustomer($name,$surname,$phone,$email)
 {
     $conn = createMysqlConnection();
 
     $sql = "INSERT INTO customer (id, name, surname, phone, email)
     VALUES (0,'$name','$surname','$phone','$email')";
+    $isSuccess = false;
+    if ($conn->query($sql) === TRUE)
+    {
+        $isSuccess = true;
+    } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 
-    if ($conn->query($sql) === TRUE) {
+    $conn->close();
+    return $isSuccess;
+
+}
+
+function deletecustomer($id)
+{
+    $conn = createMysqlConnection();
+
+    $sql = "DELETE FROM customer WHERE id = $id";
+    if ($conn->query($sql) === TRUE)
+    {
     echo "New record created successfully";
     } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
@@ -36,7 +55,7 @@ function getAllCustomer()
  {
     $conn = createMysqlConnection();
 
-    $sql = "SELECT * FROM customer";
+    $sql = "SELECT * FROM customer ORDER BY id";
     $result = $conn->query($sql);
 
     $customers = array();
@@ -63,3 +82,36 @@ function getAllCustomer()
     $conn->close();
     return $customers;
 }
+
+function getAllCustomerById($id)
+ {
+    $conn = createMysqlConnection();
+
+    $sql = "SELECT * FROM customer WHERE id = $id"; /////////////เดี๋ยวกลับมาแก้ให้ไม่โดนแฮกง่าย
+    $result = $conn->query($sql);
+
+    $customers = array();
+    if ($result->num_rows > 0)
+    {
+    // output data of each row
+    while($row = $result->fetch_assoc())
+    {
+
+        $customers_row = array("id"=>$row["id"],
+                                "name"=>$row["name"],
+                                "surname"=>$row["surname"],
+                                "phone"=>$row["phone"],
+                                "email"=>$row["email"],
+                                "insert_time"=>$row["insert_time"],
+                            );
+        array_push($customers,$customers_row);
+    }
+    }
+    else
+    {
+    echo "0 results";
+    }
+    $conn->close();
+    return $customers;
+}
+
