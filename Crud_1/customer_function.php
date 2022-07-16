@@ -35,6 +35,28 @@ function insertNewCustomer($name,$surname,$phone,$email)
 
 }
 
+function updateCustomer($id,$name,$surname,$phone,$email)
+{
+    $conn = createMysqlConnection();
+
+    $sql = "UPDATE customer SET name = '$name',
+                                surname = '$surname',
+                                phone = '$phone',
+                                email = '$email'
+                                WHERE id = $id";
+    $isSuccess = false;
+    if ($conn->query($sql) === TRUE)
+    {
+        $isSuccess = true;
+    } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+    return $isSuccess;
+
+}
+
 function deletecustomer($id)
 {
     $conn = createMysqlConnection();

@@ -54,7 +54,7 @@
         {
             echo "<p style='color:red;'>กรุณากรอก Email ด้วยค่ะ</p>";
         }
-        else if (isset($_GET['return']) and $_GET['return'] == 5) 
+        else if (isset($_GET['return']) and $_GET['return'] == 5)
         {
             echo "<p style='color:red;'>Email ไม่ถูก format นะคะ </p>";
         }
@@ -72,6 +72,13 @@
 
         ?>
         <ul>
+            <?
+            if($isEdit)
+            {
+                echo "<input type='hidden' name='id' value='$id;' />";
+            }
+            ?>
+            
             <li>name <input type="text" name="name" value="<?php echo isset($_COOKIE["name"]) ? $_COOKIE["name"] : "";?>" /></li>
             <li>surname <input type="text" name="surname" value="<?php echo isset($_COOKIE["surname"]) ? $_COOKIE["surname"] : "";?>"/></li>
             <li>phone <input type="text" name="phone" value="<?php echo isset($_COOKIE["phone"]) ? $_COOKIE["phone"] : "";?>"/></li>
