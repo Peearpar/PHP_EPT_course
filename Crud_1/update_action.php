@@ -1,6 +1,7 @@
 <?php
 
     require_once("customer_function.php");
+    session_start();
 
     $id = trim($_POST['id']);
     $name = trim($_POST['name']);
@@ -9,10 +10,15 @@
     $email = trim($_POST['email']);
     $submit = $_POST['submit'];
 
-    setcookie("name",$name, time() + (60*5),"/");
-    setcookie("surname",$surname, time() + (60*5),"/");
-    setcookie("phone",$phone, time() + (60*5),"/");
-    setcookie("email",$email, time() + (60*5),"/");
+    // setcookie("name",$name, time() + (60*5),"/");
+    // setcookie("surname",$surname, time() + (60*5),"/");
+    // setcookie("phone",$phone, time() + (60*5),"/");
+    // setcookie("email",$email, time() + (60*5),"/");
+
+    $_SESSION["name"] = "$name";
+    $_SESSION["surname"] = "$surname";
+    $_SESSION["phone"] = "$phone";
+    $_SESSION["email"] = "$email";
 
     if(!isset($submit))
     {
@@ -47,10 +53,13 @@
 
       $isSuccess = updateCustomer($id,$name,$surname,$phone,$email);
 
-      setcookie("name","", time() - 3600,"/");
-    setcookie("surname","", time() - 3600,"/");
-    setcookie("phone","", time() - 3600,"/");
-    setcookie("email","", time() - 3600,"/");
+        // setcookie("name","", time() - 3600,"/");
+        // setcookie("surname","", time() - 3600,"/");
+        // setcookie("phone","", time() - 3600,"/");
+        // setcookie("email","", time() - 3600,"/");
+
+        session_unset();
+        session_destroy();
 ?>
 
 <html>

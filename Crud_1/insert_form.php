@@ -1,4 +1,5 @@
 <?php
+        session_start();
         require_once("customer_function.php");
 
         $isEdit = false;
@@ -15,15 +16,15 @@
                 $phone = $customers[0]["phone"];
                 $email = $customers[0]["email"];
 
-                setcookie("name",$name, time() + (60*5),"/");
-                setcookie("surname",$surname, time() + (60*5),"/");
-                setcookie("phone",$phone, time() + (60*5),"/");
-                setcookie("email",$email, time() + (60*5),"/");
+                // setcookie("name",$name, time() + (60*5),"/");
+                // setcookie("surname",$surname, time() + (60*5),"/");
+                // setcookie("phone",$phone, time() + (60*5),"/");
+                // setcookie("email",$email, time() + (60*5),"/");
 
-                $_COOKIE["name"]= $name;
-                $_COOKIE["surname"]=$surname;
-                $_COOKIE["phone"]=$phone;
-                $_COOKIE["email"]=$email;
+                $_SESSION["name"] = "$name";
+                $_SESSION["surname"] = "$surname";
+                $_SESSION["phone"] = "$phone";
+                $_SESSION["email"] = "$email";
             }
         }
 ?>
@@ -78,11 +79,11 @@
                 echo "<input type='hidden' name='id' value='$id;' />";
             }
             ?>
-            
-            <li>name <input type="text" name="name" value="<?php echo isset($_COOKIE["name"]) ? $_COOKIE["name"] : "";?>" /></li>
-            <li>surname <input type="text" name="surname" value="<?php echo isset($_COOKIE["surname"]) ? $_COOKIE["surname"] : "";?>"/></li>
-            <li>phone <input type="text" name="phone" value="<?php echo isset($_COOKIE["phone"]) ? $_COOKIE["phone"] : "";?>"/></li>
-            <li>email <input type="text" name="email" value="<?php echo isset($_COOKIE["email"]) ? $_COOKIE["email"] : "";?>"/></li>
+
+            <li>name <input type="text" name="name" value="<?php echo isset($_SESSION["name"]) ? $_SESSION["name"] : "";?>" /></li>
+            <li>surname <input type="text" name="surname" value="<?php echo isset($_SESSION["surname"]) ? $_SESSION["surname"] : "";?>"/></li>
+            <li>phone <input type="text" name="phone" value="<?php echo isset($_SESSION["phone"]) ? $_SESSION["phone"] : "";?>"/></li>
+            <li>email <input type="text" name="email" value="<?php echo isset($_SESSION["email"]) ? $_SESSION["email"] : "";?>"/></li>
             <li><input type="submit" name="submit" value="SAVE" /></li>
         </ul>
     </form>
