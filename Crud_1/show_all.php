@@ -6,15 +6,39 @@
 <html>
 
 <head>
-    <title>
-        MM's Bag [Customers]</title>
+    <title>MM's Bag [Customers]</title>
+    <script src="jquery-3.6.0.min.js"></script>
         <script>
+            $(document).ready(function()
+            {
+                loadTable();
+            });
+            function loadTable()
+            {
+                $("#table").load("show_all_customer_table.php", function(responseTxt, statusTxt, xhr)
+                {
+
+                });
+            }
             function confirm_delete(id)
             {
                 var r = confirm("Delete id" +id+ "???");
                 if(r == true)
                 {
-                    window.open("delete_customer.php?id="+id,"_self");
+                    // window.open("delete_customer.php?id="+id,"_self");
+                    //ajax
+                    $("#data").load("delete_customer.php?id="+id, function(responseTxt, statusTxt, xhr)
+                {
+                    if(statusTxt == "success")
+                    {
+                        loadTable();
+                    }
+                   else if(statusTxt == "error")
+                   {
+                        alert("Error: " + xhr.status + ": " + xhr.statusText);
+                   }
+
+                });
                 }
                 else
                     {
@@ -26,48 +50,8 @@
 
 <body>
     <h1>Customers ของเราทั้งหมด</h1>
-    <?php
-        require_once("customer_function.php");
-        $customers = getAllCustomer();
-
-        if(count($customers) > 0)
-        {
-            echo"<table border = '1' style= 'border-collapse:collapse;'>";
-                echo"<tr>";
-                    $keys = array_keys ($customers[0]);
-                    for($i = 0; $i < count($keys); $i++)
-                    {
-                        $key = $keys[$i];
-                        echo"<th>$key</th>";
-                    }
-                        echo"<th>"."Edit"."</th>";
-                        echo"<th>"."Delete"."</th>";
-                        echo"</tr>";
-                        for($i = 0; $i < count($customers); $i++)
-                        {
-                            if($i % 2 == 0)
-                            {
-                                echo "<tr style='background-color:#cccccc;'>";
-                            }
-                            else
-                            {
-                                echo"<tr>";
-                            }
-                            for($j = 0; $j < count($keys); $j++)
-
-                            {
-                                $key = $keys[$j];
-                                echo"<td>".$customers[$i][$key]."</td>";
-                            }
-                            $id = $customers[$i]['id'];
-                            echo"<td>"."<a href = 'insert_form.php?action=edit&id=$id'> Edit </a>"."</td>";
-                            echo"<td>"."<button onclick='confirm_delete($id)'>Delete</button>"."</td>";
-
-                            echo"<tr>";
-                        }
-                        echo"</table>";
-        }
-?>
+    <div id="data"></div>
+    <div id="table"></div>
 <br/>
 <a href="index.php">Back</a>
 </body>

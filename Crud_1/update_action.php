@@ -50,7 +50,6 @@
         header("location:insert_form.php?return=5");
         exit;
       }
-
       $isSuccess = updateCustomer($id,$name,$surname,$phone,$email);
 
         // setcookie("name","", time() - 3600,"/");
